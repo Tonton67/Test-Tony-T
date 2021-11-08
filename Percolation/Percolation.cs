@@ -121,6 +121,8 @@ namespace Percolation
 
             }
 
+
+
             if (IsFull(i, j) == true)
             {
                 foreach (KeyValuePair<int, int> _voisin in CloseNeighbors(i, j))
@@ -128,8 +130,16 @@ namespace Percolation
                     if (IsOpen(_voisin.Key, _voisin.Value))
                     {
                         _full[_voisin.Key, _voisin.Value] = true;
+
+
+
+
+
+
                     }
                 }
+
+
             }
 
         }
