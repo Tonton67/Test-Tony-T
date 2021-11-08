@@ -96,21 +96,48 @@ namespace Percolation
         public void Open(int i, int j)
         {
 
-            if (IsOpen(i,j) != true)
+            if (IsOpen(i, j) != true)
             {
                 _open[i, j] = true;
 
-                foreach (int _voisin in CloseNeighbors(i,j))
+                if (i == 0)
                 {
+                    _full[i, j] = true;
+                }
+                else
+                {
+                    foreach (KeyValuePair<int, int> _voisin in CloseNeighbors(i, j))
+                    {
+                        if (IsFull(_voisin.Key, _voisin.Value))
+                        {
+                            _full[i, j] = true;
+                        }
+
+
+                    }
+
 
                 }
 
             }
 
-           
-
-                
+            if (IsFull(i, j) == true)
+            {
+                foreach (KeyValuePair<int, int> _voisin in CloseNeighbors(i, j))
+                {
+                    if (IsOpen(_voisin.Key, _voisin.Value))
+                    {
+                        _full[_voisin.Key, _voisin.Value] = true;
+                    }
+                }
+            }
 
         }
+
+
+
+
+
     }
 }
+
