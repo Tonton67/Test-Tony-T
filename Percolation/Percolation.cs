@@ -131,7 +131,6 @@ namespace Percolation
                 {
                     _full[_voisin.Key, _voisin.Value] = true;
                     OpenNeighbors(_voisin.Key, _voisin.Value);
-
                 }
 
 
