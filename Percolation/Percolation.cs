@@ -98,14 +98,18 @@ namespace Percolation
 
             if (IsOpen(i,j) != true)
             {
+                _open[i, j] = true;
 
+                foreach (int _voisin in CloseNeighbors(i,j))
+                {
 
+                }
 
             }
 
            
 
-                return false;
+                
 
         }
     }
