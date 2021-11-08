@@ -111,16 +111,18 @@ namespace Percolation
                         if (IsFull(_voisin.Key, _voisin.Value))
                         {
                             _full[i, j] = true;
-                            OpenNeighbors(i, j);
                         }
-
 
                     }
 
-
+                }
+                if (_full[i, j] == true)
+                {
+                    OpenNeighbors(i, j);
                 }
 
             }
+            Percolate();
 
         }
         private void OpenNeighbors(int i, int j)
