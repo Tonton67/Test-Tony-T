@@ -31,7 +31,25 @@ namespace Percolation
 
         public double PercolationValue(int size)
         {
-            return 0;
+            int k = 0;
+            Random rnd = new Random();
+            //Initialiser une grille de taille N *N avec l'ensemble des cases bloquées.
+            Percolation percolation = new Percolation(size);
+            //Choisir aléatoirement une case bloquée et l'ouvrir.
+            do
+            {
+                int i = rnd.Next(0, size);
+                int j = rnd.Next(0, size);
+                percolation.Open(i, j);
+                k += 1;
+                //Tester si la percolation se produit.
+            } while (!percolation.Percolate());
+            //Réaliser la deuxième et troisième étape jusqu'à ce que la percolation est lieue.
+            //Retourner la valeur cases ouvertes / nombre total de cases
+            
+
+            return k / (size*size);
+
         }
     }
 }

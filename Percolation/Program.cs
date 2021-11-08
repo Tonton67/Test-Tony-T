@@ -10,7 +10,9 @@ namespace Percolation
     {
         static void Main(string[] args)
         {
-
+            PercolationSimulation pS = new PercolationSimulation();
+            
+            Console.WriteLine(pS.PercolationValue(10));
 
             // Keep the console window open
             Console.WriteLine("----------------------");

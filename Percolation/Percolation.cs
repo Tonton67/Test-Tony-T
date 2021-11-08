@@ -49,17 +49,11 @@ namespace Percolation
         {
             for (int i = 0; i < _size; i++)
             {
-                if (_full[i, _size])
+                if (_full[_size - 1, i])
                 {
-                    Console.WriteLine("Il y a percolation.");
                     return true;
                 }
-
-                Console.WriteLine("Il n'y a pas de percolation.");
-                return false;
-
             }
-
             return false;
         }
 
@@ -111,6 +105,7 @@ namespace Percolation
                         if (IsFull(_voisin.Key, _voisin.Value))
                         {
                             _full[i, j] = true;
+                            break;
                         }
 
                     }
@@ -122,8 +117,6 @@ namespace Percolation
                 }
 
             }
-            Percolate();
-
         }
         private void OpenNeighbors(int i, int j)
         {
