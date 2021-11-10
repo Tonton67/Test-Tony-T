@@ -13,7 +13,8 @@ namespace Projet_1
         {
             //Déclaration de la liste
             List<Compte> comptes = new List<Compte>();
-          
+            Compte c = new Compte(0, 0);
+            int convers;
 
             //Lecture du fichier Compte
             string[] lines = File.ReadAllLines(accpPath);
@@ -21,12 +22,25 @@ namespace Projet_1
             //Séparation des données
             foreach (string line in lines)
             {
+
                 Console.WriteLine($"Fichier : {line}");
                 string[] split = line.Split(';');
                 for (int i = 0; i < split.Length; i++)
                 {
-                    Console.WriteLine($" Infos Split : {split[i]}");
-                    comptes.Add(comptes[i]);
+                    Console.WriteLine($" Infos Split C : {split[i]}");
+                    int.TryParse(split[0], out convers);
+                    c.Numero = convers;
+                    c.Solde = System.Convert.ToDecimal(split[1]);
+                    comptes.Add(c);
+
+
+
+                    //if (split[1] == null)
+                    //{
+                    //    split[1] = "0";
+                    //}
+
+
                 }
 
                 //string compte = split[1];
@@ -36,7 +50,7 @@ namespace Projet_1
                 //{
                 //    comptes.Add(compte, new List<int>());
                 //}
-            }                  
+            }
             return comptes;
         }
 
@@ -45,6 +59,8 @@ namespace Projet_1
         {
             //Déclaration de la liste
             List<Transaction> transactions = new List<Transaction>();
+            Transaction t = new Transaction(0, 0, 0, 0);
+            int convers;
 
             //Lecture du fichier Compte
             string[] lines = File.ReadAllLines(trxnPath);
@@ -56,8 +72,19 @@ namespace Projet_1
                 string[] split = line.Split(';');
                 for (int i = 0; i < split.Length; i++)
                 {
-                    Console.WriteLine($" Infos Split : {split[i]}");
-                    transactions.Add(transactions[i]);
+                    Console.WriteLine($" Infos Split T : {split[i]}");
+                    int.TryParse(split[0], out convers);
+                    t.Numero = convers;
+                    t.Montant = System.Convert.ToDecimal(split[1]);
+                    int.TryParse(split[0], out convers);
+                    t.NumeroExp = convers;
+                    int.TryParse(split[0], out convers);
+                    t.NumeroDest = convers;
+                    transactions.Add(t);
+
+
+
+
                 }
 
                 //string transaction = split[1];
