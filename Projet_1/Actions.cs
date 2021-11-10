@@ -33,16 +33,11 @@ namespace Projet_1
                     c.Solde = System.Convert.ToDecimal(split[1]);
                     comptes.Add(c);
 
-
-
                     //if (split[1] == null)
                     //{
                     //    split[1] = "0";
                     //}
-
-
                 }
-
                 //string compte = split[1];
 
                 //Classement des données dans le dictionnaire
