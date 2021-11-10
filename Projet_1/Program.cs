@@ -15,6 +15,8 @@ namespace Projet_1
             string acctPath = path + @"\Comptes_1.txt";
             string trxnPath = path + @"\Transactions_1.txt";
             string sttsPath = path + @"\Statut_1.txt";
+            
+
 
 
 
