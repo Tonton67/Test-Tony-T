@@ -7,24 +7,27 @@ using System.Threading.Tasks;
 
 namespace Projet_1
 {
-    public class Compte
+    public class Transaction
     {
 
         public int Numero { get; set; }
-        public decimal Solde { get; set; }
-        public Compte(int numero, decimal solde)
+        public decimal Montant { get; set; }
+        public int NumeroExp { get; set; }
+        public int NumeroDest { get; set; }
+        public Transaction(int numero, decimal montant, int numeroExp, int numeroDest)
         {
             Numero = numero;
-            Solde = solde;
+            Montant = montant;
+            NumeroExp = numeroExp;
+            NumeroDest = numeroDest;
         }
-
-        public void LectureCompte(string accpPath, string sttsPath)
+        public void LectureTransaction(string trxnPath, string sttsPath)
         {
             //Déclaration du dictionnaire
-            var comptes = new Dictionary<string, List<int>>();
+            var transactions = new Dictionary<string, List<int>>();
 
             //Lecture du fichier Compte
-            string[] lines = File.ReadAllLines(accpPath);
+            string[] lines = File.ReadAllLines(trxnPath);
 
             //Séparation des données
             foreach (string line in lines)
@@ -38,9 +41,9 @@ namespace Projet_1
                 string compte = split[1];
                 
                 //Classement des données dans le dictionnaire
-                if (!comptes.ContainsKey(compte))
+                if (!transactions.ContainsKey(compte))
                 {
-                    comptes.Add(compte, new List<int>());
+                    transactions.Add(compte, new List<int>());
                 }
             }
 
