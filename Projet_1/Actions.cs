@@ -30,21 +30,17 @@ namespace Projet_1
                     Console.WriteLine($" Infos Split C : {split[i]}");
                     int.TryParse(split[0], out convers);
                     c.Numero = convers;
-                    c.Solde = System.Convert.ToDecimal(split[1]);
-                    comptes.Add(c);
 
-                    //if (split[1] == null)
-                    //{
-                    //    split[1] = "0";
-                    //}
+                    if (string.IsNullOrEmpty(split[1]))
+                    {
+                        c.Solde = 0;
+                    }
+                    else
+                    {
+                        c.Solde = System.Convert.ToDecimal(split[1]);
+                    }
                 }
-                //string compte = split[1];
-
-                //Classement des données dans le dictionnaire
-                //if (!comptes.ContainsKey(compte))
-                //{
-                //    comptes.Add(compte, new List<int>());
-                //}
+                comptes.Add(c);
             }
             return comptes;
         }
@@ -70,25 +66,22 @@ namespace Projet_1
                     Console.WriteLine($" Infos Split T : {split[i]}");
                     int.TryParse(split[0], out convers);
                     t.Numero = convers;
-                    t.Montant = System.Convert.ToDecimal(split[1]);
+
+                    if (string.IsNullOrEmpty(split[1]))
+                    {
+                        t.Montant = 0;
+                    }
+                    else
+                    {
+                        t.Montant = System.Convert.ToDecimal(split[1]);
+                    }
+
                     int.TryParse(split[0], out convers);
                     t.NumeroExp = convers;
                     int.TryParse(split[0], out convers);
                     t.NumeroDest = convers;
-                    transactions.Add(t);
-
-
-
-
                 }
-
-                //string transaction = split[1];
-
-                //Classement des données dans le dictionnaire
-                //if (!transactions.ContainsKey(transaction))
-                //{
-                //    transactions.Add(transaction, new List<int>());
-                //}
+                transactions.Add(t);
             }
             return transactions;
         }
