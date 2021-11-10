@@ -61,23 +61,29 @@ namespace Percolation
         {
             List<KeyValuePair<int, int>> _voisins = new List<KeyValuePair<int, int>>();
 
+            //if (!i < 0 || i < _size - 1 || j < 0 || j < _size - 1)
+            //{
+            //    return null;
+            //}
+
+
 
             if (i > 0)
             {
                 _voisins.Add(new KeyValuePair<int, int>(i - 1, j));
             }
 
-            if (i < _size - 1)
+            else if (i < _size - 1)
             {
                 _voisins.Add(new KeyValuePair<int, int>(i + 1, j));
             }
 
-            if (j > 0)
+            else if (j > 0)
             {
                 _voisins.Add(new KeyValuePair<int, int>(i, j - 1));
             }
 
-            if (j < _size - 1)
+            else if (j < _size - 1)
             {
                 _voisins.Add(new KeyValuePair<int, int>(i, j + 1));
             }
