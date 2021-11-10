@@ -38,17 +38,17 @@ namespace Projet_1
                 {
                     Console.WriteLine($" Infos Split : {split[i]}");
                 }
-                string compte = split[1];
+                string transaction = split[1];
                 
                 //Classement des données dans le dictionnaire
-                if (!transactions.ContainsKey(compte))
+                if (!transactions.ContainsKey(transaction))
                 {
-                    transactions.Add(compte, new List<int>());
+                    transactions.Add(transaction, new List<int>());
                 }
             }
 
             //// Ecriture fichier de sortie
-            //File.WriteAllLines(sttsPath, comptes);
+            //File.WriteAllLines(sttsPath, transactions);
         }
     }
 }
