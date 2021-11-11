@@ -41,6 +41,7 @@ namespace Projet_1
                         c.Solde = System.Convert.ToDecimal(split[1]);
                     }
                 }
+                //Ajout des données dans la liste Compte
                 comptes.Add(c);
             }
             return comptes;
@@ -83,6 +84,7 @@ namespace Projet_1
                     int.TryParse(split[0], out convers);
                     t.NumeroDest = convers;
                 }
+                //Ajout des données dans la liste Transaction
                 transactions.Add(t);
             }
             return transactions;
