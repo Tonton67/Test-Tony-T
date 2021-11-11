@@ -95,19 +95,20 @@ namespace Projet_1
             int[] traitement = new int[];
             for(i=0 ; i < transactions.Length ; i++)
             {
-            if(t.NumeroExp(i) == 0)
-            {
-                c.Solde(i) += t.Montant(i);
-            }
-            else if(t.NumeroExp(i) == i && t.NumeroDest(i) == 0 && c.Solde(i) >= t.Montant(i))
-            {
-                c.Solde(i) -= t.Montant(i);
-            }
-            else
-            {
-
-            }
-
+                if(t.NumeroExp(i) == 0)
+                {
+                    c.Solde(i) += t.Montant(i);
+                }
+                else if(t.NumeroExp(i) == i && t.NumeroDest(i) == 0 && c.Solde(i) >= t.Montant(i))
+                {
+                    c.Solde(i) -= t.Montant(i);
+                }
+                else if (t.NumeroExp(i) == i && c.Solde(i) >= t.Montant(i) && c.Solde(t.NumeroDest(i)) >= t.Montant(i))
+                {
+                    c.Solde(i) -= t.Montant(i);
+                    c.Solde(t.NumeroDest(i)) += t.Montant(i);
+                }
+                return false;
             }
             return traitement;
 
