@@ -31,6 +31,7 @@ namespace Projet_1
                     int.TryParse(split[0], out convers);
                     c.Numero = convers;
 
+                    //Cas où le solde est nul ou vide
                     if (string.IsNullOrEmpty(split[1]))
                     {
                         c.Solde = 0;
@@ -67,6 +68,7 @@ namespace Projet_1
                     int.TryParse(split[0], out convers);
                     t.Numero = convers;
 
+                    //Cas où le montant est nul ou vide
                     if (string.IsNullOrEmpty(split[1]))
                     {
                         t.Montant = 0;
