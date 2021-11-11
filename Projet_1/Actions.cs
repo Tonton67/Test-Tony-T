@@ -89,6 +89,29 @@ namespace Projet_1
             }
             return transactions;
         }
+        
+        public static void int[] TraitementTransaction(List<Transaction> transactions)
+        {
+            int[] traitement = new int[];
+            for(i=0 ; i < transactions.Length ; i++)
+            {
+            if(t.NumeroExp(i) == 0)
+            {
+                c.Solde(i) += t.Montant(i);
+            }
+            else if(t.NumeroExp(i) == i && t.NumeroDest(i) == 0 && c.Solde(i) >= t.Montant(i))
+            {
+                c.Solde(i) -= t.Montant(i);
+            }
+            else
+            {
+
+            }
+
+            }
+            return traitement;
+
+        }
 
     }
 }
