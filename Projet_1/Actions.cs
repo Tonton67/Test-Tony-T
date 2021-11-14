@@ -119,3 +119,4 @@ namespace Projet_1
 
     }
 }
+//voir pour le statut OK/KO.
