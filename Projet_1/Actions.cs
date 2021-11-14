@@ -93,16 +93,19 @@ namespace Projet_1
         public static void int[] TraitementTransaction(List<Transaction> transactions)
         {
             int[] traitement = new int[];
-            for(i=0 ; i < transactions.Length ; i++)
+            for (int i = 0; i < transactions.Length ; i++)
             {
+                //Depot
                 if(t.NumeroExp(i) == 0)
                 {
                     c.Solde(i) += t.Montant(i);
                 }
+                //Retrait
                 else if(t.NumeroExp(i) == i && t.NumeroDest(i) == 0 && c.Solde(i) >= t.Montant(i))
                 {
                     c.Solde(i) -= t.Montant(i);
                 }
+                //Virement
                 else if (t.NumeroExp(i) == i && c.Solde(i) >= t.Montant(i) && c.Solde(t.NumeroDest(i)) >= t.Montant(i))
                 {
                     c.Solde(i) -= t.Montant(i);
