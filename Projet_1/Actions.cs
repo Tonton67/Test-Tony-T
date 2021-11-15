@@ -104,8 +104,11 @@ namespace Projet_1
                     cDest = comptes.Find(cpt => cpt.Numero == trans.NumeroDest);
                     if (cDest != null)
                     {
-                        cDest.Solde += trans.Montant;
-                        statut.Etat = "OK";
+                        if (trans.Montant >= 0)
+                        {
+                            cDest.Solde += trans.Montant;
+                            statut.Etat = "OK";
+                        }
                     }
                 }
                 //SINON SI Retrait
@@ -114,8 +117,14 @@ namespace Projet_1
                     cExp = comptes.Find(cpt => cpt.Numero == trans.NumeroExp);
                     if (cExp != null)
                     {
-                        cExp.Solde -= trans.Montant;
-                        statut.Etat = "OK";
+                        if (trans.Montant >= 0)
+                        {
+                            if (cExp.Solde >= trans.Montant)
+                            {
+                                cExp.Solde -= trans.Montant;
+                                statut.Etat = "OK";
+                            }
+                        }
                     }
                 }
                 //SINON SI Virement/Prélèvement
@@ -123,11 +132,17 @@ namespace Projet_1
                 {
                     cDest = comptes.Find(cpt => cpt.Numero == trans.NumeroDest);
                     cExp = comptes.Find(cpt => cpt.Numero == trans.NumeroExp);
-                    if (true)
+                    if (cExp != null || cDest != null)
                     {
-                        cExp.Solde -= trans.Montant;
-                        cDest.Solde += trans.Montant;
-                        statut.Etat = "OK";
+                        if (trans.Montant >= 0)
+                        {
+                            if (cExp.Solde >= trans.Montant)
+                            {
+                                cExp.Solde -= trans.Montant;
+                                cDest.Solde += trans.Montant;
+                                statut.Etat = "OK";
+                            }
+                        }
                     }
                 }
                 statuts.Add(statut);
