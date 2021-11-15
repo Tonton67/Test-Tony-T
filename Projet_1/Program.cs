@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Projet_1
 {
     class Program
@@ -22,9 +23,28 @@ namespace Projet_1
             //Console.WriteLine($"Lecture Transaction : {trans}");
 
             List<Statut> stt = Actions.TraitementTransaction(trans, cpt);
-            //Console.WriteLine($"Traitement : {trt}");
+            //Console.WriteLine($"Traitement : {stt}");
 
             //Ecriture fichier de sortie
+            //StreamWriter sw = new StreamWriter(sttsPath);
+
+            //string stts = string.Join(";", stt.ToList());
+                        
+            using (StreamWriter sw = new StreamWriter(sttsPath))
+            {
+                foreach (var statut in stt)
+                {
+                    sw.WriteLine($"{statut.Numero};{statut.Etat}");
+                }
+                sw.Close();
+            }
+
+            //for (int i = 0; i < stt.Count; i++)
+            //{
+            //    sw.WriteLine();
+            //}
+            //sw.Close();
+
             //File.WriteAllLines(sttsPath, stt);
 
 
