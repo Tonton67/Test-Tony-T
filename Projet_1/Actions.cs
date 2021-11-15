@@ -160,6 +160,5 @@ namespace Projet_1
             ////Ecriture fichier de sortie
             //File.WriteAllLines(sttsPath, traitement);
         }
-
     }
 }
