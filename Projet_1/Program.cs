@@ -17,11 +17,15 @@ namespace Projet_1
             string sttsPath = path + @"\Statut_1.txt";
 
             List<Compte> cpt = Actions.LectureCompte(acctPath);
-            Console.WriteLine($"Lecture Compte : {cpt}");
+            //Console.WriteLine($"Lecture Compte : {cpt}");
             List<Transaction> trans = Actions.LectureTransaction(trxnPath);
-            Console.WriteLine($"Lecture Transaction : {trans}");
+            //Console.WriteLine($"Lecture Transaction : {trans}");
 
+            List<Statut> stt = Actions.TraitementTransaction(trans, cpt);
+            //Console.WriteLine($"Traitement : {trt}");
 
+            //Ecriture fichier de sortie
+            //File.WriteAllLines(sttsPath, stt);
 
 
             // Keep the console window open

@@ -12,6 +12,7 @@ namespace Projet_1
 
         public int Numero { get; set; }
         public decimal Solde { get; set; }
+
         public Compte(int numero, decimal solde)
         {
             Numero = numero;

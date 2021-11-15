@@ -14,6 +14,7 @@ namespace Projet_1
         public decimal Montant { get; set; }
         public int NumeroExp { get; set; }
         public int NumeroDest { get; set; }
+
         public Transaction(int numero, decimal montant, int numeroExp, int numeroDest)
         {
             Numero = numero;
@@ -21,6 +22,7 @@ namespace Projet_1
             NumeroExp = numeroExp;
             NumeroDest = numeroDest;
         }
+
         //public void LectureTransaction(string trxnPath, string sttsPath)
         //{
         //    //Déclaration du dictionnaire
@@ -39,7 +41,7 @@ namespace Projet_1
         //            Console.WriteLine($" Infos Split : {split[i]}");
         //        }
         //        string transaction = split[1];
-                
+
         //        //Classement des données dans le dictionnaire
         //        if (!transactions.ContainsKey(transaction))
         //        {

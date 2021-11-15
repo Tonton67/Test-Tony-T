@@ -10,11 +10,11 @@ namespace Projet_1
     public class Statut
     {
         public int Numero { get; set; }
-        public string Statuts { get; set; }
+        public string Etat { get; set; }
         public Statut(int numero, string statut)
         {
             Numero = numero;
-            Statuts = statut;
+            Etat = statut;
         }
     }
 }
