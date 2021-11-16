@@ -246,6 +246,13 @@ namespace Projet_2
                 Compte cExp;
                 Compte cDest;
 
+
+                if ()
+                {
+
+                }
+
+
                 //Recherche si le numéro de transaction n'a pas déjà été traité
                 if (!transacNum.Any(x => x == trans.Identifiant))
                 {
