@@ -23,9 +23,8 @@ namespace Projet_2
             Console.WriteLine($"Lecture G : {gest}");
             List<Compte> cpt = Actions.LectureCompte(acctPath);
             Console.WriteLine($"Lecture C : {cpt}");
-
-            //List<Transaction> trans = Actions.LectureTransaction(trxnPath);
-
+            List<Transaction> trans = Actions.LectureTransaction(trxnPath);
+            Console.WriteLine($"Lecture C : {trans}");
 
             // Keep the console window open
             Console.WriteLine("----------------------");

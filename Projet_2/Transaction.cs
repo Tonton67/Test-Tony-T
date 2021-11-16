@@ -16,10 +16,10 @@ namespace Projet_2
         public int NumeroExp { get; set; }
         public int NumeroDest { get; set; }
 
-        public Transaction(int identifiant, DateTime dateeffet, decimal montant, int numeroExp, int numeroDest)
+        public Transaction(int identifiant, DateTime dateEffet, decimal montant, int numeroExp, int numeroDest)
         {
             Identifiant = identifiant;
-            DateEffet = dateeffet;
+            DateEffet = dateEffet;
             Montant = montant;
             NumeroExp = numeroExp;
             NumeroDest = numeroDest;

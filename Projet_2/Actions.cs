@@ -68,6 +68,7 @@ namespace Projet_2
         {
             //Déclaration de la liste
             List<Compte> comptes = new List<Compte>();
+            //List<int> cNum = new List<int>();
 
             //Lecture du fichier Compte
             string[] lines = File.ReadAllLines(accpPath);
@@ -92,74 +93,147 @@ namespace Projet_2
 
                 identifiant = int.Parse(split[0]);
                 date = DateTime.Parse(split[1]);
-                entree = int.Parse(split[3]);
-                sortie = int.Parse(split[4]);
+
+                //entree = int.Parse(split[3]);
+                //sortie = int.Parse(split[4]);
+
+
+                //Cas où l'entrée est nulle ou vide ou espace
+                if (string.IsNullOrWhiteSpace(split[3]))
+                {
+                    entree = 0;
+                }
+                else
+                {
+                    entree = int.Parse(split[3]);
+                }
+
+                //Cas où la sortie est nulle ou vide ou espace
+                if (string.IsNullOrWhiteSpace(split[4]))
+                {
+                    sortie = 0;
+                }
+                else
+                {
+                    sortie = int.Parse(split[4]);
+                }
+
 
                 //Cas où le solde est nul ou vide ou espace
                 if (string.IsNullOrWhiteSpace(split[2]))
                 {
-                    Compte cSortie = comptes.Find(cpt => cpt.Identifiant == line[4]);
-                    if (cSortie != null)
-                    {
-                        solde = 0;
-                    }
+                    //Compte cSortie = comptes.Find(cpt => cpt.Identifiant == line[4]);
+                    //if (cSortie != null && string.IsNullOrWhiteSpace(split[2]))
+                    //{
+
+                    solde = 0;
+                    //}
+
                 }
 
                 else
                 {
                     solde = decimal.Parse(split[2].Replace(".", ","));
                 }
-                
+
                 if (identifiant != 0 && solde >= 0)
+                //if (identifiant != 0 && CompteExistant(identifiant, comptes) == false)
+
+                //{
+                //    if (!cNum.Any(x => x == identifiant))
                 {
+
                     //Création de compte
                     Compte c = new Compte(identifiant, date, solde, entree, sortie);
+                    //cNum.Add(c.Identifiant);
+
                     //Ajout des données dans la liste Compte
                     comptes.Add(c);
                 }
+                //}
             }
             return comptes;
         }
 
-        //        public static List<Transaction> LectureTransaction(string trxnPath)
-        //        {
-        //            //Déclaration de la liste
-        //            List<Transaction> transactions = new List<Transaction>();
-        //            int convers;
+        public static bool CompteExistant(int identifiant, List<Compte> comptes)
+        {
+            if (comptes.Any(x => x.Identifiant == identifiant))
+            {
+                return true;
+            }
+            return false;
+        }
 
-        //            //Lecture du fichier Compte
-        //            string[] lines = File.ReadAllLines(trxnPath);
+        public static List<Transaction> LectureTransaction(string trxnPath)
+        {
+            //Déclaration de la liste
+            List<Transaction> transactions = new List<Transaction>();
 
-        //            //Séparation des données
-        //            foreach (string line in lines)
-        //            {
-        //                Transaction t = new Transaction(0, 0, 0, 0);
-        //                Console.WriteLine($"Fichier : {line}");
-        //                string[] split = line.Split(';');
+            //Lecture du fichier Compte
+            string[] lines = File.ReadAllLines(trxnPath);
 
-        //                ////Affichage console
-        //                //for (int i = 0; i < split.Length; i++)
-        //                //{
-        //                //    Console.WriteLine($" Infos Split T{i} : {split[i]}");
-        //                //}
+            //Séparation des données
+            foreach (string line in lines)
+            {
+                //Transaction t = new Transaction(0, 0, 0, 0);
 
-        //                t.Numero = int.Parse(split[0]);
-        //                //Cas où le montant est nul ou vide ou espace
-        //                if (string.IsNullOrWhiteSpace(split[1]))
-        //                {
-        //                    t.Montant = 0;
-        //                }
-        //                else
-        //                {
-        //                    t.Montant = decimal.Parse(split[1].Replace(".", ","));
-        //                }
-        //                t.NumeroExp = int.Parse(split[2]);
-        //                t.NumeroDest = int.Parse(split[3]);
-        //                //Ajout des données dans la liste Transaction
-        //                transactions.Add(t);
-        //            }
-        //            return transactions;
-        //        }
+                int identifiant;
+                DateTime dateEffet;
+                decimal montant;
+                int numeroExp;
+                int numeroDest;
+
+                Console.WriteLine($"Fichier : {line}");
+                string[] split = line.Split(';');
+
+                ////Affichage console
+                //for (int i = 0; i < split.Length; i++)
+                //{
+                //    Console.WriteLine($" Infos Split T{i} : {split[i]}");
+                //}
+
+                identifiant = int.Parse(split[0]);
+                dateEffet = DateTime.Parse(split[1]);
+
+
+                //Cas où le numéro expéditeur est nul ou vide ou espace
+                if (string.IsNullOrWhiteSpace(split[3]))
+                {
+                    numeroExp = 0;
+                }
+                else
+                {
+                    numeroExp = int.Parse(split[3]);
+                }
+
+                //Cas où le numéro destinataire est nul ou vide ou espace
+                if (string.IsNullOrWhiteSpace(split[4]))
+                {
+                    numeroDest = 0;
+                }
+                else
+                {
+                    numeroDest = int.Parse(split[4]);
+                }
+
+
+                //Cas où le montant est nul ou vide ou espace
+                if (string.IsNullOrWhiteSpace(split[2]))
+                {
+                    montant = 0;
+                }
+                else
+                {
+                    montant = decimal.Parse(split[2].Replace(".", ","));
+                }
+
+                Transaction t = new Transaction(identifiant, dateEffet, montant, numeroExp, numeroDest);
+
+                //Ajout des données dans la liste Transaction
+                transactions.Add(t);
+            }
+            return transactions;
+        }
 
         //        public static List<Statut> TraitementTransaction(List<Transaction> transactions, List<Compte> comptes)
         //        {
