@@ -59,8 +59,10 @@ namespace Projet_2
                 //}
 
             }
+
             return gestionnaires;
         }
+
         public static List<Compte> LectureCompte(string accpPath)
         {
             //Déclaration de la liste

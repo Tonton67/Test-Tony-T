@@ -23,7 +23,7 @@ namespace Projet_2
             Date = date;
             Solde = solde;
             Entree = entree;
-            Sortie = sortie
+            Sortie = sortie;
         }
 
 

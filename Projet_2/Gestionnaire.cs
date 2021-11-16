@@ -18,7 +18,7 @@ namespace Projet_2
         {
             Identifiant = identifiant;
             Type = type;
-            NbTransactions = nbtransactions
+            NbTransactions = nbtransactions;
         }
 
 
