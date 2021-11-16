@@ -24,7 +24,7 @@ namespace Projet_2
                 int identifiant;
                 string type;
                 int nbtransactions;
-
+                
                 Console.WriteLine($"Fichier : {line}");
                 string[] split = line.Split(';');
 
@@ -52,11 +52,11 @@ namespace Projet_2
                 //{
 
 
-                //Création de compte
-                Gestionnaire g = new Gestionnaire(identifiant, type, nbtransactions);
-                //Ajout des données dans la liste Compte
-                gestionnaires.Add(g);
-
+                    //Création de compte
+                    Gestionnaire g = new Gestionnaire(identifiant, type, nbtransactions);
+                    //Ajout des données dans la liste Compte
+                    gestionnaires.Add(g);
+                
                 //}
 
             }

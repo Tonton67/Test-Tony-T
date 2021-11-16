@@ -7,20 +7,14 @@ using System.Threading.Tasks;
 
 namespace Projet_2
 {
-    public class Gestionnaire
+    public class StatutOperation
     {
-
         public int Identifiant { get; set; }
-        public string Type { get; set; }
-        public int NbTransactions { get; set; }
-
-        public Gestionnaire(int identifiant, string type, int nbtransactions)
+        public string Etat { get; set; }
+        public StatutOperation(int identifiant, string etat)
         {
             Identifiant = identifiant;
-            Type = type;
-            NbTransactions = nbtransactions;
+            Etat = etat;
         }
-
-
     }
 }
