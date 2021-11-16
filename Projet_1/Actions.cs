@@ -21,8 +21,9 @@ namespace Projet_1
             //Séparation des données
             foreach (string line in lines)
             {
+                int numero;
+                decimal solde;
 
-                Compte c = new Compte(0, 0);
                 Console.WriteLine($"Fichier : {line}");
                 string[] split = line.Split(';');
 
@@ -32,18 +33,23 @@ namespace Projet_1
                 //    Console.WriteLine($" Infos Split C{i} : {split[i]}");
                 //}
 
-                c.Numero = int.Parse(split[0]);
+                numero = int.Parse(split[0]);
                 //Cas où le solde est nul ou vide ou espace
                 if (string.IsNullOrWhiteSpace(split[1]))
                 {
-                    c.Solde = 0;
+                    solde = 0;
                 }
-                else if (c.Solde >= 0)
+                else
                 {
-                    c.Solde = decimal.Parse(split[1].Replace(".", ","));
+                    solde = decimal.Parse(split[1].Replace(".", ","));
                 }
-                //Ajout des données dans la liste Compte
-                comptes.Add(c);
+                if (numero != 0 && solde >= 0)
+                {
+                    //Création de compte
+                    Compte c = new Compte(numero, solde);
+                    //Ajout des données dans la liste Compte
+                    comptes.Add(c);
+                }
             }
             return comptes;
         }
@@ -91,6 +97,7 @@ namespace Projet_1
         public static List<Statut> TraitementTransaction(List<Transaction> transactions, List<Compte> comptes)
         {
             List<Statut> statuts = new List<Statut>();
+            List<int> transacNum = new List<int>();
 
             foreach (var trans in transactions)
             {
@@ -98,11 +105,9 @@ namespace Projet_1
                 Compte cExp;
                 Compte cDest;
 
-
                 //Recherche si le numéro de transaction n'a pas déjà été traité
-                if (trans.Numero != trans.Numero-1)
+                if (!transacNum.Any(x => x == trans.Numero))
                 {
-
                     //SI Dépôt
                     if (trans.NumeroExp == 0 && trans.NumeroDest != 0)
                     {
@@ -161,6 +166,8 @@ namespace Projet_1
                         }
                     }
                 }
+                //Ajout de la transaction à la liste pour vérifier du numéro de transaction
+                transacNum.Add(trans.Numero);
                 //Ajout des données dans la liste Statut
                 statuts.Add(statut);
             }
