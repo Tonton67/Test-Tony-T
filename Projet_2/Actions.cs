@@ -35,7 +35,8 @@ namespace Projet_2
                 //}
 
                 identifiant = int.Parse(split[0]);
-                nbtransactions = int.Parse(split[3]);
+                type = split[1];
+                nbtransactions = int.Parse(split[2]);
 
 
                 ////Cas où le solde est nul ou vide ou espace
