@@ -20,10 +20,11 @@ namespace Projet_2
             string metrPath = path + @"\Metrologie_1.txt";
 
             List<Gestionnaire> gest = Actions.LectureGestionnaire(gestPath);
-
+            Console.WriteLine($"Lecture G : {gest}");
             List<Compte> cpt = Actions.LectureCompte(acctPath);
+            Console.WriteLine($"Lecture C : {cpt}");
 
-            List<Transaction> trans = Actions.LectureTransaction(trxnPath);
+            //List<Transaction> trans = Actions.LectureTransaction(trxnPath);
 
 
             // Keep the console window open
