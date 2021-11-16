@@ -5,10 +5,62 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Projet_1
+namespace Projet_2
 {
     public static class Actions
     {
+        public static List<Gestionnaire> LectureGestionnaire(string gestPath)
+        {
+            //Déclaration de la liste
+            List<Gestionnaire> gestionnaires = new List<Gestionnaire>();
+            int convers;
+
+            //Lecture du fichier Compte
+            string[] lines = File.ReadAllLines(gestPath);
+
+            //Séparation des données
+            foreach (string line in lines)
+            {
+                int identifiant;
+                string type;
+                int nbtransactions;
+                
+                Console.WriteLine($"Fichier : {line}");
+                string[] split = line.Split(';');
+
+                ////Affichage console
+                //for (int i = 0; i < split.Length; i++)
+                //{
+                //    Console.WriteLine($" Infos Split C{i} : {split[i]}");
+                //}
+
+                identifiant = int.Parse(split[0]);
+                nbtransactions = int.Parse(split[3]);
+
+
+                ////Cas où le solde est nul ou vide ou espace
+                //if (string.IsNullOrWhiteSpace(split[1]))
+                //{
+                //    solde = 0;
+                //}
+                //else
+                //{
+                //    solde = decimal.Parse(split[1].Replace(".", ","));
+                //}
+                //if (numero != 0 && solde >= 0)
+                //{
+
+
+                    //Création de compte
+                    Gestionnaire g = new Gestionnaire(identifiant, type, nbtransactions);
+                    //Ajout des données dans la liste Compte
+                    gestionnaires.Add(g);
+                
+                //}
+
+            }
+            return gestionnaires;
+        }
         public static List<Compte> LectureCompte(string accpPath)
         {
             //Déclaration de la liste

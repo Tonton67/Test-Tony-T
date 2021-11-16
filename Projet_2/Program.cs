@@ -19,6 +19,11 @@ namespace Projet_2
             string stosPath = path + @"\Statut_Operations.txt";
             string metrPath = path + @"\Metrologie.txt";
             
+            List<Gestionnaire> gest = Actions.LectureGestionnaire(gestPath);
+
+            List<Compte> cpt = Actions.LectureCompte(acctPath);
+
+            List<Transaction> trans = Actions.LectureTransaction(trxnPath);
 
 
             // Keep the console window open
