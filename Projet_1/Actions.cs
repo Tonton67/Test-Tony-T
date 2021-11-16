@@ -90,7 +90,6 @@ namespace Projet_1
         {
             List<Statut> statuts = new List<Statut>();
 
-
             foreach (var trans in transactions)
             {
                 Statut statut = new Statut(trans.Numero, "KO");
@@ -101,9 +100,12 @@ namespace Projet_1
                 //SI Dépôt
                 if (trans.NumeroExp == 0 && trans.NumeroDest != 0)
                 {
+                    //Recherche du compte destinataire dans la liste Compte
                     cDest = comptes.Find(cpt => cpt.Numero == trans.NumeroDest);
+                    //SI Le Compte est trouvé dans la liste Compte
                     if (cDest != null)
                     {
+                        //SI Le montant est positif
                         if (trans.Montant >= 0)
                         {
                             cDest.Solde += trans.Montant;
@@ -114,9 +116,12 @@ namespace Projet_1
                 //SINON SI Retrait
                 else if (trans.NumeroDest == 0 && trans.NumeroExp != 0)
                 {
+                    //Recherche du compte expéditeur dans la liste Compte
                     cExp = comptes.Find(cpt => cpt.Numero == trans.NumeroExp);
+                    //SI Le Compte est trouvé dans la liste Compte
                     if (cExp != null)
                     {
+                        //SI Le montant est positif
                         if (trans.Montant >= 0)
                         {
                             if (cExp.Solde >= trans.Montant)
@@ -130,12 +135,16 @@ namespace Projet_1
                 //SINON SI Virement/Prélèvement
                 else if (trans.NumeroDest != 0 && trans.NumeroExp != 0)
                 {
+                    //Recherche des comptes destinataire et expéditeur dans la liste Compte
                     cDest = comptes.Find(cpt => cpt.Numero == trans.NumeroDest);
                     cExp = comptes.Find(cpt => cpt.Numero == trans.NumeroExp);
+                    //SI Les Comptes ont été trouvé dans la liste Compte
                     if (cExp != null || cDest != null)
                     {
+                        //SI Le montant est positif
                         if (trans.Montant >= 0)
                         {
+                            //SI Le solde du compte expéditeur est supérieur ou égal au montant
                             if (cExp.Solde >= trans.Montant)
                             {
                                 cExp.Solde -= trans.Montant;
@@ -145,35 +154,10 @@ namespace Projet_1
                         }
                     }
                 }
+                //Ajout des données dans la liste Statut
                 statuts.Add(statut);
             }
-
             return statuts;
-
-            //for (int i = 0; i < transactions.Count; i++)
-            //{
-            //    //Depot
-            //    if (transactions[3](i) == 0)
-            //    {
-            //        c.Solde(i) += t.Montant(i);
-            //    }
-            //    //Retrait
-            //    else if (t.NumeroExp(i) == i && t.NumeroDest(i) == 0 && c.Solde(i) >= t.Montant(i))
-            //    {
-            //        c.Solde(i) -= t.Montant(i);
-            //    }
-            //    //Virement
-            //    else if (t.NumeroExp(i) == i && c.Solde(i) >= t.Montant(i) && c.Solde(t.NumeroDest(i)) >= t.Montant(i))
-            //    {
-            //        c.Solde(i) -= t.Montant(i);
-            //        c.Solde(t.NumeroDest(i)) += t.Montant(i);
-            //    }
-            //    return traitement.Statuts = "KO";
-            //}
-            //return traitement;
-
-            ////Ecriture fichier de sortie
-            //File.WriteAllLines(sttsPath, traitement);
         }
     }
 }

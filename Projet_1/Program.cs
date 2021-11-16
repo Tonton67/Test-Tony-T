@@ -18,18 +18,18 @@ namespace Projet_1
             string sttsPath = path + @"\Statut_1.txt";
 
             List<Compte> cpt = Actions.LectureCompte(acctPath);
+            ////Test Lecture Compte
             //Console.WriteLine($"Lecture Compte : {cpt}");
+
             List<Transaction> trans = Actions.LectureTransaction(trxnPath);
+            ////Test Lecture Transaction
             //Console.WriteLine($"Lecture Transaction : {trans}");
 
             List<Statut> stt = Actions.TraitementTransaction(trans, cpt);
+            ////Test Traitement Transaction
             //Console.WriteLine($"Traitement : {stt}");
 
             //Ecriture fichier de sortie
-            //StreamWriter sw = new StreamWriter(sttsPath);
-
-            //string stts = string.Join(";", stt.ToList());
-                        
             using (StreamWriter sw = new StreamWriter(sttsPath))
             {
                 foreach (var statut in stt)
@@ -38,14 +38,6 @@ namespace Projet_1
                 }
                 sw.Close();
             }
-
-            //for (int i = 0; i < stt.Count; i++)
-            //{
-            //    sw.WriteLine();
-            //}
-            //sw.Close();
-
-            //File.WriteAllLines(sttsPath, stt);
 
 
             // Keep the console window open
