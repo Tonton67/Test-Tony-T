@@ -58,9 +58,6 @@ namespace Projet_2
                 DateTime dateOuv = DateTime.MinValue;
                 DateTime dateFerm = DateTime.MaxValue;
 
-
-                //Console.WriteLine($"Fichier C : {line}");
-
                 //Séparation des données du fichier d'entrée
                 string[] split = line.Split(';');
 
@@ -95,13 +92,7 @@ namespace Projet_2
                 //Cas où le solde est nul ou vide ou espace
                 if (string.IsNullOrWhiteSpace(split[2]))
                 {
-                    //Compte cSortie = comptes.Find(cpt => cpt.Identifiant == line[4]);
-                    //if (cSortie != null && string.IsNullOrWhiteSpace(split[2]))
-                    //{
-
                     solde = 0;
-                    //}
-
                 }
 
                 else
@@ -178,7 +169,7 @@ namespace Projet_2
             return comptes;
         }
 
-        public static bool CompteExistant(int identifiant, List<Compte> comptes)
+        private static bool CompteExistant(int identifiant, List<Compte> comptes)
         {
             //Contrôle de l'existence du compte dans la liste de Compte
             if (comptes.Any(x => x.Identifiant == identifiant))
@@ -257,20 +248,26 @@ namespace Projet_2
 
         public static List<StatutTransaction> TraitementTransaction(List<Transaction> transactions, List<Compte> comptes)
         {
+            //Déclaration de la liste Statut Transaction
             List<StatutTransaction> statutsTr = new List<StatutTransaction>();
+            //Déclaration de la liste pour vérifier qu'il n'y a pas de doublon de transaction
             List<int> transacNum = new List<int>();
 
+            //Parcours de la liste Transaction
             foreach (var trans in transactions)
             {
+                //Déclaration de variables
                 StatutTransaction statutTr = new StatutTransaction(trans.Identifiant);
                 Compte cExp;
                 Compte cDest;
 
+                //Parcours de la liste Compte
                 foreach (var cpt in comptes)
                 {
                     //Recherche si le numéro de transaction n'a pas déjà été traité
                     if (!transacNum.Any(x => x == trans.Identifiant))
                     {
+                        //Vérification de la date d'effet de la transaction devant être comprise entre les dates d'ouverture et de fermeture des comptes
                         if (trans.DateEffet > cpt.DateOuv && trans.DateEffet < cpt.DateFerm)
                         {
                             //SI Dépôt
@@ -317,6 +314,7 @@ namespace Projet_2
                                 //SI Les Comptes ont été trouvé dans la liste Compte
                                 if (cExp != null || cDest != null)
                                 {
+                                    //Vérifications de la date d'effet par rapport aux dates d'ouverture et de fermeture des comptes expéditeurs et destinataires
                                     if (trans.DateEffet > cExp.DateOuv && trans.DateEffet < cExp.DateFerm && trans.DateEffet > cDest.DateOuv && trans.DateEffet < cDest.DateFerm)
                                     {
 
