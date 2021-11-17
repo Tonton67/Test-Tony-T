@@ -157,16 +157,15 @@ namespace Projet_2
                 //SINON SI Modification compte
                 if (entree != 0 && sortie != 0 && solde == 0)
                 {
+                    //Parcourir la liste Compte pour ....
                     foreach (var cpt in comptes)
                     {
                         if (identifiant == cpt.Identifiant)
                         {
-
+                            //... Comparer le gestionnaire
                             if (entree == cpt.Entree)
                             {
-
-                                //if (comptes.Any(x => x.Identifiant == entree))
-
+                                //Si le gestionnaire est le bon : modification du gestionnaire
                                 cpt.Entree = sortie;
                                 //Retour Statut "OK"
                                 sOpe.Etat = "OK";
