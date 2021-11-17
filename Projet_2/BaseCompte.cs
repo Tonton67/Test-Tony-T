@@ -7,29 +7,26 @@ using System.Threading.Tasks;
 
 namespace Projet_2
 {
-    public class Compte
+    public class BaseCompte
     {
 
         public int Identifiant { get; set; }
-        public DateTime Date { get; set; }
         public decimal Solde { get; set; }
-        public int Entree { get; set; }
-        public int Sortie { get; set; }
+        public decimal MontantMaxRetrait { get; set; }
         public DateTime DateOuv { get; set; }
         public DateTime DateFerm { get; set; }
+        public List<Transaction> Historique { get; set; }
 
 
 
-        public Compte(int identifiant, DateTime date, decimal solde, int entree, int sortie, DateTime dateOuv, DateTime dateFerm)
-        //public Compte(int identifiant, DateTime date, decimal solde, int entree, int sortie)
+        public BaseCompte(int identifiant, decimal solde, decimal montantMaxRetrait, DateTime dateOuv, DateTime dateFerm, List<Transaction> historique)
         {
             Identifiant = identifiant;
-            Date = date;
             Solde = solde;
-            Entree = entree;
-            Sortie = sortie;
+            MontantMaxRetrait = montantMaxRetrait;
             DateOuv = dateOuv;
             DateFerm = dateFerm;
+            Historique = historique;
 
         }
 

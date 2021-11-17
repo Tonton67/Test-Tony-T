@@ -13,7 +13,6 @@ namespace Projet_2
         {
             //Déclaration de la liste
             List<Gestionnaire> gestionnaires = new List<Gestionnaire>();
-            int convers;
 
             //Lecture du fichier Compte
             string[] lines = File.ReadAllLines(gestPath);
@@ -28,47 +27,22 @@ namespace Projet_2
                 Console.WriteLine($"Fichier G : {line}");
                 string[] split = line.Split(';');
 
-                ////Affichage console
-                //for (int i = 0; i < split.Length; i++)
-                //{
-                //    Console.WriteLine($" Infos Split C{i} : {split[i]}");
-                //}
-
                 identifiant = int.Parse(split[0]);
                 type = split[1];
                 nbtransactions = int.Parse(split[2]);
 
-
-                ////Cas où le solde est nul ou vide ou espace
-                //if (string.IsNullOrWhiteSpace(split[1]))
-                //{
-                //    solde = 0;
-                //}
-                //else
-                //{
-                //    solde = decimal.Parse(split[1].Replace(".", ","));
-                //}
-                //if (numero != 0 && solde >= 0)
-                //{
-
-
-                //Création de compte
+                //Création de gestionnaire
                 Gestionnaire g = new Gestionnaire(identifiant, type, nbtransactions);
-                //Ajout des données dans la liste Compte
+                //Ajout des données dans la liste Gestionnaire
                 gestionnaires.Add(g);
-
-                //}
-
             }
-
             return gestionnaires;
         }
 
-        public static List<Compte> LectureCompte(string accpPath)
+        public static List<Compte> LectureCompte(List<StatutOperation> statutOperations, string accpPath)
         {
             //Déclaration de la liste
             List<Compte> comptes = new List<Compte>();
-            //List<int> cNum = new List<int>();
 
             //Lecture du fichier Compte
             string[] lines = File.ReadAllLines(accpPath);
@@ -81,22 +55,21 @@ namespace Projet_2
                 decimal solde;
                 int entree;
                 int sortie;
+                DateTime dateOuv = DateTime.MinValue;
+                DateTime dateFerm = DateTime.MaxValue;
 
-                Console.WriteLine($"Fichier C : {line}");
+
+                //Console.WriteLine($"Fichier C : {line}");
+
+                //Séparation des données du fichier d'entrée
                 string[] split = line.Split(';');
 
-                ////Affichage console
-                //for (int i = 0; i < split.Length; i++)
-                //{
-                //    Console.WriteLine($" Infos Split C{i} : {split[i]}");
-                //}
-
+                //Conversion des données d'entrée
                 identifiant = int.Parse(split[0]);
                 date = DateTime.Parse(split[1]);
 
-                //entree = int.Parse(split[3]);
-                //sortie = int.Parse(split[4]);
-
+                //Initialisation du statut des opérations
+                StatutOperation sOpe = new StatutOperation(identifiant);
 
                 //Cas où l'entrée est nulle ou vide ou espace
                 if (string.IsNullOrWhiteSpace(split[3]))
@@ -136,27 +109,61 @@ namespace Projet_2
                     solde = decimal.Parse(split[2].Replace(".", ","));
                 }
 
-                if (identifiant != 0 && solde >= 0)
-                //if (identifiant != 0 && CompteExistant(identifiant, comptes) == false)
+                //Déterminer nature de l'opération
+                //SI Création compte
+                if (entree != 0 && sortie == 0)
+                {
+                    if (identifiant != 0 && solde >= 0 && CompteExistant(identifiant, comptes) == false)
 
-                //{
-                //    if (!cNum.Any(x => x == identifiant))
+                    {
+                        //Création d'un compte
+                        Compte c = new Compte(identifiant, date, solde, entree, sortie, dateOuv, dateFerm);
+
+                        //Affectation date d'ouverture du compte
+                        c.DateOuv = date;
+                        //Retour statut "OK"
+                        sOpe.Etat = "OK";
+                        //Ajout des données dans la liste Compte
+                        comptes.Add(c);
+                    }
+                }
+                //SINON SI Suppression compte
+                if (entree == 0 && sortie != 0)
+                {
+                    if (solde == 0 && sortie == identifiant)
+                    {
+                        foreach (var cpt in comptes)
+                        {
+                            if (identifiant == cpt.Identifiant)
+                            {
+                                //Affectation date de fermeture du compte
+                                cpt.DateFerm = date;
+                                //Retour Statut "OK"
+                                sOpe.Etat = "OK";
+
+                            }
+                        }
+                    }
+                }
+                //SINON SI Modification compte
+                if (entree != 0 && sortie != 0)
                 {
 
-                    //Création de compte
-                    Compte c = new Compte(identifiant, date, solde, entree, sortie);
-                    //cNum.Add(c.Identifiant);
-
-                    //Ajout des données dans la liste Compte
-                    comptes.Add(c);
+                    if (comptes.Any(x => x.Identifiant == entree))
+                    {
+                        entree = sortie;
+                        //Retour Statut "OK"
+                        sOpe.Etat = "OK";
+                    }
                 }
-                //}
+                statutOperations.Add(sOpe);
             }
             return comptes;
         }
 
         public static bool CompteExistant(int identifiant, List<Compte> comptes)
         {
+            //Contrôle de l'existence du compte dans la liste de Compte
             if (comptes.Any(x => x.Identifiant == identifiant))
             {
                 return true;
@@ -172,26 +179,21 @@ namespace Projet_2
             //Lecture du fichier Compte
             string[] lines = File.ReadAllLines(trxnPath);
 
-            //Séparation des données
+            //Séparation des données d'entrée
             foreach (string line in lines)
             {
-                //Transaction t = new Transaction(0, 0, 0, 0);
-
                 int identifiant;
                 DateTime dateEffet;
                 decimal montant;
                 int numeroExp;
                 int numeroDest;
 
-                Console.WriteLine($"Fichier : {line}");
+                //Console.WriteLine($"Fichier : {line}");
+
+                //Séparation des données du fichier d'entrée
                 string[] split = line.Split(';');
 
-                ////Affichage console
-                //for (int i = 0; i < split.Length; i++)
-                //{
-                //    Console.WriteLine($" Infos Split T{i} : {split[i]}");
-                //}
-
+                //Conversion des données
                 identifiant = int.Parse(split[0]);
                 dateEffet = DateTime.Parse(split[1]);
 
@@ -227,6 +229,7 @@ namespace Projet_2
                     montant = decimal.Parse(split[2].Replace(".", ","));
                 }
 
+                //Création d'une transaction
                 Transaction t = new Transaction(identifiant, dateEffet, montant, numeroExp, numeroDest);
 
                 //Ajout des données dans la liste Transaction
@@ -242,165 +245,87 @@ namespace Projet_2
 
             foreach (var trans in transactions)
             {
-                StatutTransaction statutTr = new StatutTransaction(trans.Identifiant, "KO");
+                StatutTransaction statutTr = new StatutTransaction(trans.Identifiant);
                 Compte cExp;
                 Compte cDest;
 
-
-                if ()
+                foreach (var cpt in comptes)
                 {
-
-                }
-
-
-                //Recherche si le numéro de transaction n'a pas déjà été traité
-                if (!transacNum.Any(x => x == trans.Identifiant))
-                {
-                    //SI Dépôt
-                    if (trans.NumeroExp == 0 && trans.NumeroDest != 0)
+                    if (trans.DateEffet > cpt.DateOuv && trans.DateEffet < cpt.DateFerm)
                     {
-                        //Recherche du compte destinataire dans la liste Compte
-                        cDest = comptes.Find(cpt => cpt.Identifiant == trans.NumeroDest);
-                        //SI Le Compte est trouvé dans la liste Compte
-                        if (cDest != null)
+
+
+                        //Recherche si le numéro de transaction n'a pas déjà été traité
+                        if (!transacNum.Any(x => x == trans.Identifiant))
                         {
-                            //SI Le montant est positif
-                            if (trans.Montant > 0)
+                            //SI Dépôt
+                            if (trans.NumeroExp == 0 && trans.NumeroDest != 0)
                             {
-                                cDest.Solde += trans.Montant;
-                                statutTr.Statut = "OK";
-                            }
-                        }
-                    }
-                    //SINON SI Retrait
-                    else if (trans.NumeroDest == 0 && trans.NumeroExp != 0)
-                    {
-                        //Recherche du compte expéditeur dans la liste Compte
-                        cExp = comptes.Find(cpt => cpt.Identifiant == trans.NumeroExp);
-                        //SI Le Compte est trouvé dans la liste Compte
-                        if (cExp != null)
-                        {
-                            //SI Le montant est positif
-                            if (trans.Montant > 0)
-                            {
-                                if (cExp.Solde >= trans.Montant)
+                                //Recherche du compte destinataire dans la liste Compte
+                                cDest = comptes.Find(cpts => cpts.Identifiant == trans.NumeroDest);
+                                //SI Le Compte est trouvé dans la liste Compte
+                                if (cDest != null)
                                 {
-                                    cExp.Solde -= trans.Montant;
-                                    statutTr.Statut = "OK";
+                                    //SI Le montant est positif
+                                    if (trans.Montant > 0)
+                                    {
+                                        cDest.Solde += trans.Montant;
+                                        statutTr.Statut = "OK";
+                                    }
+                                }
+                            }
+                            //SINON SI Retrait
+                            else if (trans.NumeroDest == 0 && trans.NumeroExp != 0)
+                            {
+                                //Recherche du compte expéditeur dans la liste Compte
+                                cExp = comptes.Find(cpts => cpts.Identifiant == trans.NumeroExp);
+                                //SI Le Compte est trouvé dans la liste Compte
+                                if (cExp != null)
+                                {
+                                    //SI Le montant est positif
+                                    if (trans.Montant > 0)
+                                    {
+                                        if (cExp.Solde >= trans.Montant)
+                                        {
+                                            cExp.Solde -= trans.Montant;
+                                            statutTr.Statut = "OK";
+                                        }
+                                    }
+                                }
+                            }
+                            //SINON SI Virement/Prélèvement
+                            else if (trans.NumeroDest != 0 && trans.NumeroExp != 0)
+                            {
+                                //Recherche des comptes destinataire et expéditeur dans la liste Compte
+                                cDest = comptes.Find(cpts => cpts.Identifiant == trans.NumeroDest);
+                                cExp = comptes.Find(cpts => cpts.Identifiant == trans.NumeroExp);
+                                //SI Les Comptes ont été trouvé dans la liste Compte
+                                if (cExp != null || cDest != null)
+                                {
+                                    //SI Le montant est positif
+                                    if (trans.Montant > 0)
+                                    {
+                                        //SI Le solde du compte expéditeur est supérieur ou égal au montant
+                                        if (cExp.Solde >= trans.Montant)
+                                        {
+                                            cExp.Solde -= trans.Montant;
+                                            cDest.Solde += trans.Montant;
+                                            statutTr.Statut = "OK";
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                    //SINON SI Virement/Prélèvement
-                    else if (trans.NumeroDest != 0 && trans.NumeroExp != 0)
-                    {
-                        //Recherche des comptes destinataire et expéditeur dans la liste Compte
-                        cDest = comptes.Find(cpt => cpt.Identifiant == trans.NumeroDest);
-                        cExp = comptes.Find(cpt => cpt.Identifiant == trans.NumeroExp);
-                        //SI Les Comptes ont été trouvé dans la liste Compte
-                        if (cExp != null || cDest != null)
-                        {
-                            //SI Le montant est positif
-                            if (trans.Montant > 0)
-                            {
-                                //SI Le solde du compte expéditeur est supérieur ou égal au montant
-                                if (cExp.Solde >= trans.Montant)
-                                {
-                                    cExp.Solde -= trans.Montant;
-                                    cDest.Solde += trans.Montant;
-                                    statutTr.Statut = "OK";
-                                }
-                            }
-                        }
+
                     }
                 }
+
                 //Ajout de la transaction à la liste pour vérifier du numéro de transaction
                 transacNum.Add(trans.Identifiant);
                 //Ajout des données dans la liste Statut
                 statutsTr.Add(statutTr);
             }
             return statutsTr;
-        }
-
-        public static List<StatutOperation> TraitementOperation(List<Transaction> transactions, List<Compte> comptes)
-        {
-            List<StatutOperation> statutsOpe = new List<StatutOperation>();
-            List<int> operationNum = new List<int>();
-
-            foreach (var ope in comptes)
-            {
-                StatutOperation statutOpe = new StatutOperation(ope.Identifiant, "KO");
-
-                //Compte cExp;
-                //Compte cDest;
-
-                //Recherche si le numéro de transaction n'a pas déjà été traité
-                if (!operationNum.Any(x => x == ope.Identifiant))
-                {
-                    ////SI Dépôt
-                    //if (ope.NumeroExp == 0 && ope.NumeroDest != 0)
-                    //{
-                    //    //Recherche du compte destinataire dans la liste Compte
-                    //    cDest = comptes.Find(cpt => cpt.Numero == trans.NumeroDest);
-                    //    //SI Le Compte est trouvé dans la liste Compte
-                    //    if (cDest != null)
-                    //    {
-                    //        //SI Le montant est positif
-                    //        if (trans.Montant > 0)
-                    //        {
-                    //            cDest.Solde += trans.Montant;
-                    //            statut.Etat = "OK";
-                    //        }
-                    //    }
-                    //}
-                    ////SINON SI Retrait
-                    //else if (trans.NumeroDest == 0 && trans.NumeroExp != 0)
-                    //{
-                    //    //Recherche du compte expéditeur dans la liste Compte
-                    //    cExp = comptes.Find(cpt => cpt.Numero == trans.NumeroExp);
-                    //    //SI Le Compte est trouvé dans la liste Compte
-                    //    if (cExp != null)
-                    //    {
-                    //        //SI Le montant est positif
-                    //        if (trans.Montant > 0)
-                    //        {
-                    //            if (cExp.Solde >= trans.Montant)
-                    //            {
-                    //                cExp.Solde -= trans.Montant;
-                    //                statut.Etat = "OK";
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                    ////SINON SI Virement/Prélèvement
-                    //else if (trans.NumeroDest != 0 && trans.NumeroExp != 0)
-                    //{
-                    //    //Recherche des comptes destinataire et expéditeur dans la liste Compte
-                    //    cDest = comptes.Find(cpt => cpt.Numero == trans.NumeroDest);
-                    //    cExp = comptes.Find(cpt => cpt.Numero == trans.NumeroExp);
-                    //    //SI Les Comptes ont été trouvé dans la liste Compte
-                    //    if (cExp != null || cDest != null)
-                    //    {
-                    //        //SI Le montant est positif
-                    //        if (trans.Montant > 0)
-                    //        {
-                    //            //SI Le solde du compte expéditeur est supérieur ou égal au montant
-                    //            if (cExp.Solde >= trans.Montant)
-                    //            {
-                    //                cExp.Solde -= trans.Montant;
-                    //                cDest.Solde += trans.Montant;
-                    //                statut.Etat = "OK";
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                }
-                //Ajout de l'opération à la liste pour vérifier du numéro d'opération
-                operationNum.Add(ope.Identifiant);
-                //Ajout des données dans la liste Statut
-                statutsOpe.Add(statutOpe);
-            }
-            return statutsOpe;
         }
     }
 }

@@ -11,10 +11,11 @@ namespace Projet_2
     {
         public int Identifiant { get; set; }
         public string Etat { get; set; }
-        public StatutOperation(int identifiant, string etat)
+        public StatutOperation(int identifiant)
         {
             Identifiant = identifiant;
-            Etat = etat;
+            Etat = "KO";
+            
         }
     }
 }
