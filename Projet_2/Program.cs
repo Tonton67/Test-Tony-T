@@ -22,11 +22,37 @@ namespace Projet_2
             List<StatutOperation> statutOperations = new List<StatutOperation>();
 
             List<Gestionnaire> gest = Actions.LectureGestionnaire(gestPath);
-            Console.WriteLine($"Lecture G : {gest}");
+            //Console.WriteLine($"Lecture G : {gest}");
+            //List<StatutOperation> sto;
             List<Compte> cpt = Actions.LectureCompte(statutOperations, acctPath);
-            Console.WriteLine($"Lecture C : {cpt}");
-            //List<Transaction> trans = Actions.LectureTransaction(trxnPath);
+            //Console.WriteLine($"Lecture C : {cpt}");
+            List<Transaction> trans = Actions.LectureTransaction(trxnPath);
             //Console.WriteLine($"Lecture C : {trans}");
+
+            List<StatutTransaction> stt = Actions.TraitementTransaction(trans, cpt);
+            ////Test Traitement Transaction
+            //Console.WriteLine($"Traitement : {stt}");
+
+
+            using (StreamWriter sw = new StreamWriter(sttsPath))
+            {
+                foreach (var statut in stt)
+                {
+                    sw.WriteLine($"{statut.Identifiant};{statut.Statut}");
+                }
+                sw.Close();
+            }
+
+            using (StreamWriter sw = new StreamWriter(stosPath))
+            {
+                foreach (var statut in statutOperations)
+                {
+                    sw.WriteLine($"{statut.Identifiant};{statut.Etat}");
+                }
+                sw.Close();
+            }
+
+
 
             // Keep the console window open
             Console.WriteLine("----------------------");

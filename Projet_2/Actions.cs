@@ -249,14 +249,17 @@ namespace Projet_2
                 Compte cExp;
                 Compte cDest;
 
+
+
+
                 foreach (var cpt in comptes)
                 {
-                    if (trans.DateEffet > cpt.DateOuv && trans.DateEffet < cpt.DateFerm)
+
+
+                    //Recherche si le numéro de transaction n'a pas déjà été traité
+                    if (!transacNum.Any(x => x == trans.Identifiant))
                     {
-
-
-                        //Recherche si le numéro de transaction n'a pas déjà été traité
-                        if (!transacNum.Any(x => x == trans.Identifiant))
+                        if (trans.DateEffet > cpt.DateOuv && trans.DateEffet < cpt.DateFerm)
                         {
                             //SI Dépôt
                             if (trans.NumeroExp == 0 && trans.NumeroDest != 0)
@@ -317,13 +320,14 @@ namespace Projet_2
                             }
                         }
 
+                    //Ajout de la transaction à la liste pour vérifier du numéro de transaction
+                    transacNum.Add(trans.Identifiant);
+                    //Ajout des données dans la liste Statut
+                    statutsTr.Add(statutTr);
                     }
+
                 }
 
-                //Ajout de la transaction à la liste pour vérifier du numéro de transaction
-                transacNum.Add(trans.Identifiant);
-                //Ajout des données dans la liste Statut
-                statutsTr.Add(statutTr);
             }
             return statutsTr;
         }
