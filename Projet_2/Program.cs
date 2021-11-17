@@ -24,7 +24,7 @@ namespace Projet_2
             List<Gestionnaire> gest = Actions.LectureGestionnaire(gestPath);
             //Console.WriteLine($"Lecture G : {gest}");
             //List<StatutOperation> sto;
-            List<Compte> cpt = Actions.LectureCompte(statutOperations, acctPath);
+            List<Compte> cpt = Actions.LectureCompte(gest, statutOperations, acctPath);
             //Console.WriteLine($"Lecture C : {cpt}");
             List<Transaction> trans = Actions.LectureTransaction(trxnPath);
             //Console.WriteLine($"Lecture C : {trans}");

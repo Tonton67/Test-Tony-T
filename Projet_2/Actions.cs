@@ -39,7 +39,7 @@ namespace Projet_2
             return gestionnaires;
         }
 
-        public static List<Compte> LectureCompte(List<StatutOperation> statutOperations, string accpPath)
+        public static List<Compte> LectureCompte(List<Gestionnaire> gestionnaires, List<StatutOperation> statutOperations, string accpPath)
         {
             //Déclaration de la liste
             List<Compte> comptes = new List<Compte>();
@@ -116,15 +116,24 @@ namespace Projet_2
                     if (identifiant != 0 && solde >= 0 && CompteExistant(identifiant, comptes) == false)
 
                     {
-                        //Création d'un compte
-                        Compte c = new Compte(identifiant, date, solde, entree, sortie, dateOuv, dateFerm);
+                        foreach (var gest in gestionnaires)
+                        {
+                            if (entree == gest.Identifiant)
+                            {
+                                //Création d'un compte
+                                Compte c = new Compte(identifiant, date, solde, entree, sortie, dateOuv, dateFerm);
 
-                        //Affectation date d'ouverture du compte
-                        c.DateOuv = date;
-                        //Retour statut "OK"
-                        sOpe.Etat = "OK";
-                        //Ajout des données dans la liste Compte
-                        comptes.Add(c);
+                                //Affectation date d'ouverture du compte
+                                c.DateOuv = date;
+                                //Retour statut "OK"
+                                sOpe.Etat = "OK";
+                                //Ajout des données dans la liste Compte
+                                comptes.Add(c);
+
+                            }
+
+                        }
+
                     }
                 }
                 //SINON SI Suppression compte
@@ -148,12 +157,17 @@ namespace Projet_2
                 //SINON SI Modification compte
                 if (entree != 0 && sortie != 0)
                 {
-
-                    if (comptes.Any(x => x.Identifiant == entree))
+                    foreach (var cpt in comptes)
                     {
-                        entree = sortie;
-                        //Retour Statut "OK"
-                        sOpe.Etat = "OK";
+                        if (entree == cpt.Entree)
+                        {
+
+                            //if (comptes.Any(x => x.Identifiant == entree))
+
+                            cpt.Entree = sortie;
+                            //Retour Statut "OK"
+                            sOpe.Etat = "OK";
+                        }
                     }
                 }
                 statutOperations.Add(sOpe);
@@ -249,13 +263,8 @@ namespace Projet_2
                 Compte cExp;
                 Compte cDest;
 
-
-
-
                 foreach (var cpt in comptes)
                 {
-
-
                     //Recherche si le numéro de transaction n'a pas déjà été traité
                     if (!transacNum.Any(x => x == trans.Identifiant))
                     {
@@ -305,25 +314,30 @@ namespace Projet_2
                                 //SI Les Comptes ont été trouvé dans la liste Compte
                                 if (cExp != null || cDest != null)
                                 {
-                                    //SI Le montant est positif
-                                    if (trans.Montant > 0)
+                                    if (trans.DateEffet > cExp.DateOuv && trans.DateEffet < cExp.DateFerm && trans.DateEffet > cDest.DateOuv && trans.DateEffet < cDest.DateFerm)
                                     {
-                                        //SI Le solde du compte expéditeur est supérieur ou égal au montant
-                                        if (cExp.Solde >= trans.Montant)
+
+                                        //SI Le montant est positif
+                                        if (trans.Montant > 0)
                                         {
-                                            cExp.Solde -= trans.Montant;
-                                            cDest.Solde += trans.Montant;
-                                            statutTr.Statut = "OK";
+                                            //SI Le solde du compte expéditeur est supérieur ou égal au montant
+                                            if (cExp.Solde >= trans.Montant)
+                                            {
+                                                cExp.Solde -= trans.Montant;
+                                                cDest.Solde += trans.Montant;
+                                                statutTr.Statut = "OK";
+                                            }
                                         }
                                     }
+
                                 }
                             }
                         }
 
-                    //Ajout de la transaction à la liste pour vérifier du numéro de transaction
-                    transacNum.Add(trans.Identifiant);
-                    //Ajout des données dans la liste Statut
-                    statutsTr.Add(statutTr);
+                        //Ajout de la transaction à la liste pour vérifier du numéro de transaction
+                        transacNum.Add(trans.Identifiant);
+                        //Ajout des données dans la liste Statut
+                        statutsTr.Add(statutTr);
                     }
 
                 }
