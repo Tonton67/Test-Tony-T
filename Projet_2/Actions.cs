@@ -155,18 +155,22 @@ namespace Projet_2
                     }
                 }
                 //SINON SI Modification compte
-                if (entree != 0 && sortie != 0)
+                if (entree != 0 && sortie != 0 && solde == 0)
                 {
                     foreach (var cpt in comptes)
                     {
-                        if (entree == cpt.Entree)
+                        if (identifiant == cpt.Identifiant)
                         {
 
-                            //if (comptes.Any(x => x.Identifiant == entree))
+                            if (entree == cpt.Entree)
+                            {
 
-                            cpt.Entree = sortie;
-                            //Retour Statut "OK"
-                            sOpe.Etat = "OK";
+                                //if (comptes.Any(x => x.Identifiant == entree))
+
+                                cpt.Entree = sortie;
+                                //Retour Statut "OK"
+                                sOpe.Etat = "OK";
+                            }
                         }
                     }
                 }
